@@ -1,10 +1,14 @@
 import prisma from "@/lib/prisma";
+import { garantirDadosRecentes } from "@/lib/dados-demo";
 
 export const runtime = "nodejs";
 export const revalidate = 60;
 
 export async function GET() {
   try {
+    // Dados de demo sempre atuais: regenera se não houver pedido de hoje
+    await garantirDadosRecentes();
+
     const now = new Date();
 
     /* ============================
